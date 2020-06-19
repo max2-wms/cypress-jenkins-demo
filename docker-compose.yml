@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+
+    testing:
+        build: .
+        image: max2wms/testing
+        container_name: testing
+        ports:
+        - "80:80"
+        - "443:443"
+
+    cypress:
+        container_name: cypress
+        image: cypress/included:3.4.0
+        environment:
+            - CYPRESS_baseUrl=http://testing:80
+        working_dir: /e2e
+        volumes:
+            - .:/e2e
+        depends_on:
+            - testing
